@@ -8,6 +8,7 @@ export async function middleware(req: NextRequest) {
 
   if (session) {
     const newToken = await getRefreshToken(session.refresh_token);
+    console.log('newToken', newToken);
     const res = NextResponse.next();
     Session.set({ ...session, access_token: newToken.access_token }, res);
     return res;
