@@ -1,17 +1,6 @@
-import qs from 'query-string';
+'use server';
 
 import { env } from '@/utils';
-
-export function getAuthorizeUrl(scope = 'user-read-private user-read-email') {
-  const { CLIENT_ID, REDIRECT_URI } = env();
-
-  return `https://accounts.spotify.com/authorize?${qs.stringify({
-    response_type: 'code',
-    client_id: CLIENT_ID,
-    scope,
-    redirect_uri: REDIRECT_URI,
-  })}`;
-}
 
 export async function getAccessToken(code: string): Promise<{
   access_token: string;

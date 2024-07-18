@@ -10,6 +10,7 @@ api.interceptors.request.use((config) => {
   const session = Session.get();
 
   if (session) {
+    console.log('session', session.access_token);
     config.headers.Authorization = `Bearer ${session.access_token}`;
   }
 
@@ -29,7 +30,8 @@ api.interceptors.response.use(
 
       const newToken = await getRefreshToken(session.refresh_token);
       err.config.headers.Authorization = `Bearer ${newToken.access_token}`;
-      // TODO: Set 'session' cookie
+
+      Session.set({ ...session, access_token: newToken.access_token });
 
       return axios.request(err.config);
     }

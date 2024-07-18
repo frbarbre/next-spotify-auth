@@ -17,7 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={sans.className}>{children}</body>
+      <body className={`${sans.className}`} style={{ minHeight: '100svh' }}>
+        {children}
+      </body>
     </html>
   );
 }

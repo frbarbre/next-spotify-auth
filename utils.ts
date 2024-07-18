@@ -1,5 +1,6 @@
 import type { NextRequest, NextResponse } from 'next/server';
 import * as headers from 'next/headers';
+import qs from 'query-string';
 
 type SessionData = {
   access_token: string;
@@ -16,6 +17,20 @@ export function env() {
 
 export function cookies(obj?: NextRequest | NextResponse) {
   return obj?.cookies || headers.cookies();
+}
+
+export function getAuthorizeUrl(
+  scope = 'user-read-private user-read-email playlist-read-private streaming user-modify-playback-state user-read-playback-state user-library-read user-library-modify',
+) {
+  const { CLIENT_ID, REDIRECT_URI } = env();
+
+  return `https://accounts.spotify.com/authorize?${qs.stringify({
+    response_type: 'code',
+    client_id: CLIENT_ID,
+    scope,
+    show_dialog: true,
+    redirect_uri: REDIRECT_URI,
+  })}`;
 }
 
 export const Session = {

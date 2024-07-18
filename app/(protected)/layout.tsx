@@ -1,9 +1,11 @@
 import { redirect } from 'next/navigation';
 
 import { Session } from '@/utils';
+import Player from '@/components/player';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  if (!Session.get()) redirect('/login');
+  const session = Session.get();
+  if (!session) redirect('/login');
   return (
     <>
       <header>
@@ -14,6 +16,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         {JSON.stringify(Session.get())}
       </header>
       {children}
+      <Player tokens={session} />
     </>
   );
 }
